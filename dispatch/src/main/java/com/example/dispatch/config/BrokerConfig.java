@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
 
+import javax.jms.ConnectionFactory;
+
 @Configuration
 public class BrokerConfig {
 
@@ -26,9 +28,8 @@ public class BrokerConfig {
         return broker;
     }
 
-    @SneakyThrows
     @Bean
-    public ActiveMQConnectionFactory senderActiveMQConnectionFactory() {
+    public ConnectionFactory senderConnectionFactory() {
         ActiveMQConnectionFactory activeMQConnectionFactory =
                 new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setBrokerURL(brokerUrl);
@@ -37,9 +38,9 @@ public class BrokerConfig {
     }
 
     @Bean
-    public CachingConnectionFactory cachingConnectionFactory() {
+    public ConnectionFactory cachingConnectionFactory() {
         return new CachingConnectionFactory(
-                senderActiveMQConnectionFactory());
+                senderConnectionFactory());
     }
 
     @Bean(name="QTemplate")

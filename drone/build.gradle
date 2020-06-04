@@ -21,6 +21,7 @@ repositories {
 
 ext {
 	set('wavefrontVersion', "2.0.0-RC1")
+	set('releaseTrainVersion', "Hoxton.SR5")
 }
 
 dependencies {
@@ -28,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-activemq'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.wavefront:wavefront-spring-boot-starter'
+	compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -38,6 +40,7 @@ dependencies {
 dependencyManagement {
 	imports {
 		mavenBom "com.wavefront:wavefront-spring-boot-bom:${wavefrontVersion}"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${releaseTrainVersion}"
 	}
 }
 

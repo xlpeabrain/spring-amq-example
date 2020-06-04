@@ -4,11 +4,14 @@ import lombok.SneakyThrows;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
+import org.springframework.boot.autoconfigure.jms.activemq.ActiveMQConnectionFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
+
+import javax.jms.ConnectionFactory;
 
 @Configuration
 @EnableJms
@@ -17,22 +20,22 @@ public class JMSConfig{
     @Value("${activemq.broker-url}")
     private String brokerUrl;
 
-    private ActiveMQConnectionFactory connectionFactory;
-    private CachingConnectionFactory cachingConnectionFactory;
+    private ConnectionFactory connectionFactory;
+    private ConnectionFactory cachingConnectionFactory;
 
     @SneakyThrows
     @Bean
-    public ActiveMQConnectionFactory senderActiveMQConnectionFactory() {
+    public ConnectionFactory senderActiveMQConnectionFactory() {
         if (null == connectionFactory) {
-            connectionFactory = new ActiveMQConnectionFactory();
-            connectionFactory.setBrokerURL(brokerUrl);
+            ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
+            factory.setBrokerURL(brokerUrl);
+            return factory;
         }
-
         return connectionFactory;
     }
 
     @Bean
-    public CachingConnectionFactory cachingConnectionFactory() {
+    public ConnectionFactory cachingConnectionFactory() {
         if (null == cachingConnectionFactory) {
             cachingConnectionFactory = new CachingConnectionFactory(
                     senderActiveMQConnectionFactory());
