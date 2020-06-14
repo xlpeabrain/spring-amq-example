@@ -12,6 +12,7 @@ import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
 
 import javax.jms.ConnectionFactory;
+import java.util.UUID;
 
 @Configuration
 @EnableJms
@@ -23,13 +24,23 @@ public class JMSConfig{
     private ConnectionFactory connectionFactory;
     private ConnectionFactory cachingConnectionFactory;
 
+    private UUID identity;
+
+    @Bean
+    public UUID getCloneId() {
+        if (null == identity) {
+            identity = UUID.randomUUID();
+        }
+        return identity;
+    }
+
     @SneakyThrows
     @Bean
     public ConnectionFactory senderActiveMQConnectionFactory() {
         if (null == connectionFactory) {
             ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory();
             factory.setBrokerURL(brokerUrl);
-            return factory;
+            connectionFactory = factory;
         }
         return connectionFactory;
     }

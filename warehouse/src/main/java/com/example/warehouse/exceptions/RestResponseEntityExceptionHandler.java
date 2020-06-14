@@ -16,6 +16,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             JobNotFoundException ex, WebRequest request) {
         String bodyOfResponse = ex.getLocalizedMessage();
         return handleExceptionInternal(ex, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+                new HttpHeaders(), HttpStatus.NO_CONTENT, request);
     }
 }

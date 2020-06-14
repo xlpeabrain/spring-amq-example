@@ -4,10 +4,12 @@ import com.example.warehouse.entity.Job;
 import com.example.warehouse.exceptions.JobNotFoundException;
 import com.example.warehouse.repository.JobRepository;
 import com.example.warehouse.request.ClaimRequest;
+import com.example.warehouse.service.JobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +24,14 @@ import java.util.UUID;
 public class JobController {
 
     private JobRepository jobRepository;
+    private JobService jobService;
     private Logger logger = LoggerFactory.getLogger(JobController.class.getName());
     protected JobController(){};
 
     @Autowired
-    public JobController(JobRepository jobRepository) {
+    public JobController(JobRepository jobRepository, JobService jobService) {
         this.jobRepository = jobRepository;
+        this.jobService = jobService;
     }
 
     @GetMapping(path = "/job", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,15 +44,6 @@ public class JobController {
 
     @PostMapping(path = "/jobClaim", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void claimJob(@RequestBody ClaimRequest claimRequest) {
-        List<Job> jobList = jobRepository.findByRemarksContainingAndAssigneeIsNull(claimRequest.getJobId());
-        if (jobList.size() < 1) {
-            throw new JobNotFoundException("Job not found for " + claimRequest.toString());
-        } else {
-            Job job = jobList.get(0);
-            job.setAssignee(claimRequest.getDroneId());
-            jobRepository.save(job);
-            logger.info("Job:{} found, Assigned drone: {}", job.getId(), job.getAssignee());
-        }
-
+        jobService.claimJob(claimRequest.getJobId(), claimRequest.getDroneId());
     }
 }

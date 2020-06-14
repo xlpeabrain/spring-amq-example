@@ -19,4 +19,6 @@ public class MessageListener {
     public void receiveTopicMsg(String message) {
         logger.info("Received Topic message: {}", message);
     }
+
+
 }

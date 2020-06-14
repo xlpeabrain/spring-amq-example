@@ -28,4 +28,12 @@ public class ActiveMQSender {
     public void sendT() {
         tTemplate.send("my-topic-1", s -> s.createTextMessage("Test T Message"));
     }
+
+    public void sendToTopic(boolean isTopic, String destination, String message) {
+        if (isTopic) {
+            tTemplate.send(destination, s -> s.createTextMessage(message));
+        } else {
+            qTemplate.send(destination, s -> s.createTextMessage(message));
+        }
+    }
 }
