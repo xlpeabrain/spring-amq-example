@@ -20,6 +20,4 @@ public class ClaimRequest {
         this.jobId = jobId;
         this.droneId = droneId;
     }
-
-
 }

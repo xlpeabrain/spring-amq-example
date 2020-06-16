@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
+import org.springframework.web.client.RestTemplate;
 
 import javax.jms.ConnectionFactory;
 import java.util.UUID;
@@ -75,5 +76,10 @@ public class JMSConfig{
         factory.setPubSubDomain(true);
 
         return factory;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

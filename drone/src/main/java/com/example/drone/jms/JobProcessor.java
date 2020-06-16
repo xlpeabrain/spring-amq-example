@@ -27,9 +27,9 @@ public class JobProcessor {
     protected JobProcessor() {};
 
     @Autowired
-    public JobProcessor(UUID cloneId) {
+    public JobProcessor(UUID cloneId, RestTemplate restTemplate) {
         this.cloneId = cloneId;
-        restTemplate = new RestTemplate();
+        this.restTemplate = restTemplate;
     }
 
     @JmsListener(destination = "jobs", containerFactory = "jmsTListenerContainerFactory")
