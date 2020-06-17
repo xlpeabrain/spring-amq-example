@@ -1,5 +1,6 @@
 package com.example.dispatch.config;
 
+import brave.sampler.Sampler;
 import lombok.SneakyThrows;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
@@ -53,6 +54,11 @@ public class BrokerConfig {
         JmsTemplate template = new JmsTemplate(cachingConnectionFactory());
         template.setPubSubDomain(true);
         return template;
+    }
+
+    @Bean
+    public Sampler sampler() {
+        return Sampler.ALWAYS_SAMPLE;
     }
 
 }

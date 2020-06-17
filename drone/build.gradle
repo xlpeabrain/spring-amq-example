@@ -21,7 +21,7 @@ repositories {
 
 ext {
 	set('wavefrontVersion', "2.0.0-RC1")
-	set('releaseTrainVersion', "Hoxton.SR4")
+	set('releaseTrainVersion', "Hoxton.SR5")
 }
 
 dependencies {

@@ -1,5 +1,6 @@
 package com.example.drone.config;
 
+import brave.sampler.Sampler;
 import lombok.SneakyThrows;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,5 +82,10 @@ public class JMSConfig{
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public Sampler sampler() {
+        return Sampler.ALWAYS_SAMPLE;
     }
 }
