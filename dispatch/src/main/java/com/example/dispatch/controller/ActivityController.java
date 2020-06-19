@@ -22,14 +22,15 @@ public class ActivityController {
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     protected final ActiveMQSender sender;
-    private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate;
     @Value("${persistent.store.url}")
     private String persistentStoreURL;
     @Value("${topic.job}")
     private String newJobsTopic;
 
     @Autowired
-    public ActivityController(ActiveMQSender sender) {
+    public ActivityController(ActiveMQSender sender, RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
         this.sender = sender;
     }
 

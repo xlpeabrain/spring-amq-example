@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import javax.jms.ConnectionFactory;
 
@@ -59,6 +60,11 @@ public class BrokerConfig {
     @Bean
     public Sampler sampler() {
         return Sampler.ALWAYS_SAMPLE;
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
 }
